@@ -11,13 +11,13 @@ const App = () => {
           G1
         </div>
         <div className="flex">
-          <button className='m-4 ' onClick={()=>{navigate("/login")}}>
+          <button className='m-4 ' onClick={()=>{navigate("/login-username")}}>
             Login
           </button>
           <button className='m-4 ' onClick={()=>{navigate("/register")}}>
             Register
           </button>
-          <button className='m-4 ' onClick={()=>{navigate("/login")}}>
+          <button className='m-4 ' onClick={()=>{navigate("/login-username")}}>
             About Task
           </button>
 
