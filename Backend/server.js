@@ -2,7 +2,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
+const cors = require('cors');
+const connectDB = require("./connectDB")
 
+
+
+
+connectDB.connectToDB();
 
 const app = express();
 
@@ -12,6 +18,12 @@ const { registerUser, loginUserByEmail, loginUserByUserName, } = require("./cont
 // Middlerware for urlenooded
 app.use(bodyParser.json());
 app.use(express.json());
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow only your React app's origin
+    methods: ['GET', 'POST'],        // Allow specific HTTP methods
+    credentials: true                // Allow cookies and other credentials
+}));
 
 const accessCheck = (allowedRoles) => {
     return (req, res, next) => {
@@ -42,22 +54,33 @@ app.post("/api/auth/register", async (req, res) => {
         const { fullName, birthDate, userName, email, password, role } = req.body;
         console.log("Register data = ", fullName, birthDate, userName, email, password, role);
 
-        const result = await registerUser(fullName, birthDate, userName, email, password);
+        const result = await registerUser(fullName, birthDate, userName, email, password, role);
+        if(result == "repeat"){
+           return res.json({status: "repeat"})
+        }
+
         const Id = result._id;
         const UId = Id.toString();
 
+        console.log("data = ",result)
 
         if (result.userName === userName) {
-            const token = jwt.sign({
-                UserId: UId,
-                role: role
-            }, process.env.JWT_SECRET);
-        }
+            const token = jwt.sign(
+                { UserId: UId, role: role },
+                process.env.JWT_SECRET,  
+            );
 
-        res.cookie("userCookie", token, { httpOnly: true, secure: true })
-        res.json({ status: "good" });
+
+            res.cookie("userCookie", token, { httpOnly: true, secure: true });
+            console.log("JWT created and cookie set.");
+            return res.json({ status: "good" });
+        }  
+        
+        return res.json({ status: "error", message: "Unexpected error occurred." });      
+
     } catch (error) {
-
+        console.error("Error during registration:", error);
+        res.json({ status: "error", message: "Internal server error." });
     }
 })
 
