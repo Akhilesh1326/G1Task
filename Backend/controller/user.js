@@ -18,6 +18,22 @@ async function loginUserByEmail(email, password) {
         if(!user){
             return {status: "Not Found"};
         }
+        const chkPass = await bcrypt.compare(password, user.password);
+        if(!chkPass){
+            return {status: "Password Invalid"};
+        }
+        return {status: "Found"};
+
+    } catch (error) {
+        console.log("Error in user controller while finding login Info by email",error);
+    }
+}
+async function loginUserByUserName(userName, password) {
+    try {
+        const user =  await userSchema.findOne({userName})
+        if(!user){
+            return {status: "Not Found"};
+        }
         const chkPass =  await bcrypt.compare(password, user.password);
         if(!chkPass){
             return {status: "Password Invalid"};
@@ -25,8 +41,8 @@ async function loginUserByEmail(email, password) {
         return {status: "Found"};
 
     } catch (error) {
-        console.log("Error in user controller while finding login Info",error);
+        console.log("Error in user controller while finding login Info by userName",error);
     }
 }
 
-module.exports = {registerUser, loginUser}
+module.exports = {registerUser, loginUserByEmail, loginUserByUserName }
