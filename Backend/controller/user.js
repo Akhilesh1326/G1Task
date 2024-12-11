@@ -1,20 +1,26 @@
 const {userSchema} = require("../Models/user");
 const bcrypt = require("bcrypt")
 
-async function registerUser(fullName, birthDate, userName, email, password) {
+async function registerUser(fullName, birthDate, userName, email, password, role) {
     try {
-        
+        const existingUser = await userSchema.findOne({$or: [{ email }, { userName }]});
+        if(existingUser){
+            return "repeat"
+        }
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt);
-        return await userSchema.create({fullName, birthDate, userName, email, password:hashedPassword});   
+        const result =  await userSchema.create({fullName, birthDate, userName, email, password:hashedPassword, role});   
+        return result;
         
     } catch (error) {
         console.log("Erorr occured in user controller in registerUser",error);
+        
     }
 }
+
 async function loginUserByEmail(email, password) {
     try {
-        const user =  await userSchema.findOne({email})
+        const user =  await userSchema.findOne({email, })
         if(!user){
             return {status: "Not Found"};
         }
