@@ -1,7 +1,53 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"
 
 const AccessDemo = () => {
 
+  const [message, setMessage] = useState("");
+  const sendAccessRequestForAdmin = async() =>{
+    try {
+      const resp = await axios.get("/api/admin-page")
+      console.log("request repsonse for admin = ",resp);
+
+      if(resp.data.status == "good"){ 
+        setMessage("Access Granted");
+      }
+      else {
+        setMessage(resp.data.status)
+      }
+    } catch (error) {
+      console.log("error in access request get call");
+    } 
+  }
+  const sendAccessRequestForUser = async() =>{
+    try {
+      const resp = await axios.get("/api/user-page")
+      console.log("request repsonse for User = ",resp);
+      if(resp.data.status == "good"){ 
+        setMessage("Access Granted");
+      }
+      else {
+        setMessage(resp.data.status)
+      }
+    } catch (error) {
+      console.log("error in access request get call = ",error);
+    } 
+  }
+  const sendAccessRequestForStaff = async() =>{
+    try {
+      const resp = await axios.get("/api/staff-page")
+      console.log("request repsonse for staff = ",resp);
+      if(resp.data.status == "good"){ 
+        setMessage("Access Granted");
+      }
+      else {
+        setMessage(resp.data.status)
+      }
+    } catch (error) {
+      console.log("error in access request get call");
+    } 
+  }
 
   const navigate = useNavigate();
   return (
@@ -21,16 +67,17 @@ const AccessDemo = () => {
         </h2>
 
         <div className="flex flex-wrap justify-center gap-4">
-          <button className="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-green-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base">
+          <button className="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-green-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base" onClick={()=>{sendAccessRequestForUser()}}>
             User Access
           </button>
-          <button className="bg-yellow-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-yellow-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base">
+          <button className="bg-yellow-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-yellow-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base" onClick={()=>{sendAccessRequestForStaff()}}>
             Staff Access
           </button>
-          <button className="bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-red-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base">
+          <button className="bg-red-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-md hover:bg-red-700 transition duration-300 transform hover:scale-105 text-sm sm:text-base" onClick={()=>{sendAccessRequestForAdmin()}}>
             Admin Access
           </button>
         </div>
+        <div className={`text-red-500 text-lg mt-10 ${message=="Access Granted" ? "text-green-500": ""}`}>{message}</div>
       </div>
     </div>
   );
