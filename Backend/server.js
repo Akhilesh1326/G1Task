@@ -1,5 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
 const jwt = require("jsonwebtoken");
 require("dotenv").config()
 const cors = require('cors');
@@ -17,33 +19,37 @@ const { registerUser, loginUserByEmail, loginUserByUserName, } = require("./cont
 
 // Middlerware for urlenooded
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(cors({
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST'],       
-    credentials: true                
+    // methods: ['GET', 'POST'],
+    credentials: true
 }));
 
 const accessCheck = (allowedRoles) => {
     return (req, res, next) => {
+        console.log("hello meddiler")
 
         try {
-            const token = req.cookie.userCookie;
+            console.log("cookeeiii = ",req.cookies)
+            const token = req.cookies.userCookie;
             if (!token) {
-                return res.json({ status: "Unauthorized Access" });
+                return res.json({ status: "Unauthorized Access, Token not Found" });
             }
 
-            const token_decode = token.varify(token, process.env.JWT_SECRET);
+            const token_decode = jwt.verify(token, process.env.JWT_SECRET);
             req.user = token_decode;
             if (!allowedRoles.includes(token_decode.role)) {
-                return res.json({ status: "Access Denied" });
+                return res.json({ status: `Access Denied, Your role as being a ${token_decode.role} don't have access`});
             }
 
             next();
 
         } catch (error) {
-            console.log("Error in role varification middleware");
+            console.log("Error in role varification middleware", error);
         }
     }
 }
@@ -64,19 +70,25 @@ app.post("/api/auth/register", async (req, res) => {
 
         console.log("data = ", result)
 
-        if (result.userName === userName) {
+        if (result.userName == userName) {
             const token = jwt.sign(
                 { UserId: UId, role: role },
-                process.env.JWT_SECRET,
+                process.env.JWT_SECRET
             );
-
-
-            res.cookie("userCookie", token, { httpOnly: true, secure: true });
+        
+            res.cookie("userCookie", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Use secure only in production
+                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                path: '/',
+            });
+        
             console.log("JWT created and cookie set.");
             return res.json({ status: "good" });
         }
+        
 
-        return res.json({ status: "bad"});
+        return res.json({ status: "bad" });
 
     } catch (error) {
         console.error("Error during registration:", error);
@@ -95,22 +107,29 @@ app.post("/api/auth/loginby-email", async (req, res) => {
         if (result.status == "Not Found") {
             return res.json({ status: "Not Found" });
         }
-        else if(result.status == "Password Invalid"){
-            return res.json({status:"Password Mismatch"});
+        else if (result.status == "Password Invalid") {
+            return res.json({ status: "Password Mismatch" });
         }
         const Id = result._id;
         const UId = Id.toString();
         const role = result.role;
-
         if (result.email == email) {
-            const token = jwt.sign({
-                UserId: UId,
-                role: role
-            }, process.env.JWT_SECRET);
-            res.cookie("userCookie", token, { httpOnly: true, secure: true });
+            const token = jwt.sign(
+                { UserId: UId, role: role },
+                process.env.JWT_SECRET
+            );
+
+            res.cookie("userCookie", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Use secure only in production
+                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                path: '/',
+            });
+
             console.log("JWT created and cookie set.");
             return res.json({ status: "good" });
         }
+
         return res.json({ status: "bad" });
 
     } catch (error) {
@@ -126,26 +145,37 @@ app.post("/api/auth/loginby-username", async (req, res) => {
         const result = await loginUserByUserName(userName, password);
         console.log("Result of username check in db = ", result);
         if (result.status == "Not Found") {
-            
+
             return res.json({ status: "Not Found" });
         }
-        else if(result.status == "Password Invalid"){
-            console.log("result stat s -= ",result.status)
-            return res.json({status:"Password Mismatch"});
+        else if (result.status == "Password Invalid") {
+            console.log("result stat s -= ", result.status)
+            return res.json({ status: "Password Mismatch" });
         }
 
         const Id = result._id;
         const UId = Id.toString();
         const role = result.role;
-        if (result.userName === userName) {
+        console.log("userName", userName, result.userName);
+        console.log("uid", UId);
+        console.log("roel = ",role);
+        if (result.userName == userName) {
             const token = jwt.sign(
                 { UserId: UId, role: role },
-                process.env.JWT_SECRET,
+                process.env.JWT_SECRET
             );
-            res.cookie("userCookie", token, { httpOnly: true, secure: true });
+        
+            res.cookie("userCookie", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Use secure only in production
+                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                path: '/',
+            });
+        
             console.log("JWT created and cookie set.");
             return res.json({ status: "good" });
         }
+        
         return res.json({ status: "bad" });
     } catch (error) {
         console.log("Error occured whilte getting username login ", error)
@@ -155,9 +185,10 @@ app.post("/api/auth/loginby-username", async (req, res) => {
 
 app.get("/api/admin-page", accessCheck(["admin"]), async (req, res) => {
     try {
+        console.log("admin here");
         res.json({ status: "good" });
     } catch (error) {
-
+        console.log("Error in access check api call of admin", error)
     }
 })
 
@@ -165,7 +196,7 @@ app.get("/api/staff-page", accessCheck(["staff", "admin"]), async (req, res) => 
     try {
         res.json({ status: "good" });
     } catch (error) {
-
+        console.log("Error in access check api call of staff", error)
     }
 })
 
@@ -173,11 +204,11 @@ app.get("/api/user-page", accessCheck(["staff", "admin", "user"]), async (req, r
     try {
         res.json({ status: "good" });
     } catch (error) {
-
+        console.log("Error in access check api call of user", error)
     }
 })
 
-const PORT = 3500;
+const PORT = 8000;
 app.listen(PORT, () => {
     console.log("Server started at ", PORT)
 });
