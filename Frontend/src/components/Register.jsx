@@ -35,7 +35,7 @@ const Register = () => {
             return false
         }
 
-        const validRoles = ['admin', 'user', 'guest'];
+        const validRoles = ['admin', 'user', 'staff'];
         if (!validRoles.includes(role)) {
             setError('Invalid role selected.')
             return false
@@ -56,14 +56,16 @@ const Register = () => {
             password,
             role)
         try {
-            const resp = await axios.post("http://localhost:3500/api/auth/register", {
+            const resp = await axios.post("/api/auth/register", {
                 fullName,
                 birthDate,
                 userName,
                 email,
                 password,
                 role
-            })
+            },{
+                withCredentials: true
+            }); 
 
             console.log("response for registering = ", resp);
             const status = resp.data.status;
@@ -84,6 +86,8 @@ const Register = () => {
             }
 
         } catch (error) {
+            setLoad(false);
+
             console.log("error while registering", error);
         }
     }

@@ -40,7 +40,7 @@ const Login = () => {
 
         console.log(userName, password)
         try {
-            const resp = await axios.post("http://localhost:3500/api/auth/loginby-username", {
+            const resp = await axios.post("/api/auth/loginby-username", {
                 userName,
                 password
             })
@@ -68,6 +68,8 @@ const Login = () => {
             }
 
         } catch (error) {
+            setLoad(false);
+
             console.log("Error while loggin by username = ", error);
         }
     }

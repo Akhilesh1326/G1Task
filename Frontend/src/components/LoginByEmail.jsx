@@ -44,7 +44,7 @@ const Login = () => {
 
         console.log(email, password);
         try {
-            const resp = await axios.post("http://localhost:3500/api/auth/loginby-email", {
+            const resp = await axios.post("/api/auth/loginby-email", {
                 email,
                 password,
             });
