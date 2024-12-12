@@ -8,6 +8,7 @@ import Login from './components/Login.jsx'
 import LoginByEmail from "./components/LoginByEmail.jsx"
 import Register from './components/Register.jsx'
 import AccessDemo from './components/AccessDemo.jsx'
+import Profile from './components/profile.jsx'
 
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   { path: "/register", element: <Register />},
   { path: "/accessDemo", element: <AccessDemo />},
   { path: "/LoginTypeSelect", element: <LoginTypeSelect />},
+  { path: "/profile", element: <Profile />},
 ])
 
 createRoot(document.getElementById('root')).render(
