@@ -28,12 +28,13 @@ async function loginUserByEmail(email, password) {
         if(!chkPass){
             return {status: "Password Invalid"};
         }
-        return {status: "Found"};
+        return user
 
     } catch (error) {
         console.log("Error in user controller while finding login Info by email",error);
     }
 }
+
 async function loginUserByUserName(userName, password) {
     try {
         const user =  await userSchema.findOne({userName})
@@ -44,7 +45,7 @@ async function loginUserByUserName(userName, password) {
         if(!chkPass){
             return {status: "Password Invalid"};
         }
-        return {status: "Found"};
+        return user;
 
     } catch (error) {
         console.log("Error in user controller while finding login Info by userName",error);
