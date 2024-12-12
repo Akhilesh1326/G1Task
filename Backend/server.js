@@ -20,9 +20,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow only your React app's origin
-    methods: ['GET', 'POST'],        // Allow specific HTTP methods
-    credentials: true                // Allow cookies and other credentials
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],       
+    credentials: true                
 }));
 
 const accessCheck = (allowedRoles) => {
@@ -43,7 +43,7 @@ const accessCheck = (allowedRoles) => {
             next();
 
         } catch (error) {
-            console.log("Error in role varification middleware");   
+            console.log("Error in role varification middleware");
         }
     }
 }
@@ -55,28 +55,28 @@ app.post("/api/auth/register", async (req, res) => {
         console.log("Register data = ", fullName, birthDate, userName, email, password, role);
 
         const result = await registerUser(fullName, birthDate, userName, email, password, role);
-        if(result == "repeat"){
-           return res.json({status: "repeat"})
+        if (result == "repeat") {
+            return res.json({ status: "repeat" })
         }
 
         const Id = result._id;
         const UId = Id.toString();
 
-        console.log("data = ",result)
+        console.log("data = ", result)
 
         if (result.userName === userName) {
             const token = jwt.sign(
                 { UserId: UId, role: role },
-                process.env.JWT_SECRET,  
+                process.env.JWT_SECRET,
             );
 
 
             res.cookie("userCookie", token, { httpOnly: true, secure: true });
             console.log("JWT created and cookie set.");
             return res.json({ status: "good" });
-        }  
-        
-        return res.json({ status: "error", message: "Unexpected error occurred." });      
+        }
+
+        return res.json({ status: "bad"});
 
     } catch (error) {
         console.error("Error during registration:", error);
@@ -86,74 +86,95 @@ app.post("/api/auth/register", async (req, res) => {
 
 app.post("/api/auth/loginby-email", async (req, res) => {
     try {
-        const { email, password, role } = req.body;
+        const { email, password } = req.body;
         console.log("login data of email log = ", email, password)
 
         const result = await loginUserByEmail(email, password);
-        const UId = result._id.toString();
+        console.log("Result of username check in db = ", result);
 
-        if (result.email == email && result.password === password) {
+        if (result.status == "Not Found") {
+            return res.json({ status: "Not Found" });
+        }
+        else if(result.status == "Password Invalid"){
+            return res.json({status:"Password Mismatch"});
+        }
+        const Id = result._id;
+        const UId = Id.toString();
+        const role = result.role;
+
+        if (result.email == email) {
             const token = jwt.sign({
                 UserId: UId,
                 role: role
             }, process.env.JWT_SECRET);
             res.cookie("userCookie", token, { httpOnly: true, secure: true });
-            res.json({ status: "good" });
+            console.log("JWT created and cookie set.");
+            return res.json({ status: "good" });
         }
-        else {
-            res.json({ status: "bad" });
-        }
-        console.log("login data = ", data);
+        return res.json({ status: "bad" });
+
     } catch (error) {
+        console.log("Error occured whilte getting email login ", error)
 
     }
 })
 
 app.post("/api/auth/loginby-username", async (req, res) => {
     try {
-        const { userName, password, role } = req.body;
+        const { userName, password } = req.body;
         console.log("user login data by username = ", userName, password);
         const result = await loginUserByUserName(userName, password);
-        const UId = result._id.toString();
-        if (result.userName === userName) {
-            const token = jwt.sign({
-                UserId: UId,
-                role: role
-            }, process.env.JWT_SECRET);
-
-            res.cookie("userCookie", token, { httpOnly: true, secure: true });
-            res.json({ msg: "good" });
-        } else {
-            res.json({ msg: "bad" });
+        console.log("Result of username check in db = ", result);
+        if (result.status == "Not Found") {
+            
+            return res.json({ status: "Not Found" });
         }
+        else if(result.status == "Password Invalid"){
+            console.log("result stat s -= ",result.status)
+            return res.json({status:"Password Mismatch"});
+        }
+
+        const Id = result._id;
+        const UId = Id.toString();
+        const role = result.role;
+        if (result.userName === userName) {
+            const token = jwt.sign(
+                { UserId: UId, role: role },
+                process.env.JWT_SECRET,
+            );
+            res.cookie("userCookie", token, { httpOnly: true, secure: true });
+            console.log("JWT created and cookie set.");
+            return res.json({ status: "good" });
+        }
+        return res.json({ status: "bad" });
+    } catch (error) {
+        console.log("Error occured whilte getting username login ", error)
+    }
+})
+
+
+app.get("/api/admin-page", accessCheck(["admin"]), async (req, res) => {
+    try {
+        res.json({ status: "good" });
     } catch (error) {
 
     }
 })
 
-
-app.get("/api/admin-page", accessCheck(["admin"]), async(req,res)=>{
+app.get("/api/staff-page", accessCheck(["staff", "admin"]), async (req, res) => {
     try {
-        res.json({status:"good"});
+        res.json({ status: "good" });
     } catch (error) {
-        
+
     }
 })
 
-app.get("/api/staff-page",accessCheck(["staff","admin"]),async(req,res)=>{
+app.get("/api/user-page", accessCheck(["staff", "admin", "user"]), async (req, res) => {
     try {
-        res.json({status:"good"});
+        res.json({ status: "good" });
     } catch (error) {
-        
-    }
-})
 
-app.get("/api/user-page", accessCheck(["staff","admin","user"]), async(req,res)=>{
-    try {
-        res.json({status:"good"});
-    } catch (error) {
-        
-    }  
+    }
 })
 
 const PORT = 3500;
