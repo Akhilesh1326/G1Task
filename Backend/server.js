@@ -79,7 +79,7 @@ app.post("/api/auth/register", async (req, res) => {
             res.cookie("userCookie", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Use secure only in production
-                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                sameSite: 'none', // Helps mitigate CSRF attacks
                 path: '/',
             });
         
@@ -122,7 +122,7 @@ app.post("/api/auth/loginby-email", async (req, res) => {
             res.cookie("userCookie", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Use secure only in production
-                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                sameSite: 'none', // Helps mitigate CSRF attacks
                 path: '/',
             });
 
@@ -168,7 +168,7 @@ app.post("/api/auth/loginby-username", async (req, res) => {
             res.cookie("userCookie", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Use secure only in production
-                sameSite: 'Lax', // Helps mitigate CSRF attacks
+                sameSite: 'none', // Helps mitigate CSRF attacks
                 path: '/',
             });
         
