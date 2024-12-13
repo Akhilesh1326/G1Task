@@ -86,15 +86,15 @@ const Login = () => {
 
                         <div>
                             <label htmlFor="username" className="block text-sm font-medium mb-1">Username</label>
-                            <input type="text" id="username" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your User Name" value={userName} onChange={(e) => { setUserName(e.target.value) }} />
+                            <input type="text" id="username" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none hover:scale-105 duration-200 hover:shadow-[0px_0px_7px_1px_#1983ed] " placeholder="Enter your User Name" value={userName} onChange={(e) => { setUserName(e.target.value) }} />
                         </div>
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
-                            <input type="password" id="password" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                            <input type="password" id="password" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-200 hover:shadow-[0px_0px_7px_1px_#1983ed]" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value) }} />
                         </div>
 
-                        <button onClick={() => { submitLoginData() }} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-45  ${load ? 'cursor-wait' : 'cursor-default'}`} disabled={load ? true : false}>
+                        <button onClick={() => { submitLoginData() }} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-45  hover:scale-105 hover:shadow-[0px_0px_7px_1px_#092139]  ${load ? 'cursor-wait' : 'cursor-default'}`} disabled={load ? true : false}>
                             <div className={`${load ? ' animate-spin' : 'animate-none'}`}>
                                 {load ? "|" : "Log In"}
                             </div>
