@@ -1,3 +1,4 @@
+const { response } = require("express");
 const {userSchema} = require("../Models/user");
 const bcrypt = require("bcrypt")
 
@@ -52,4 +53,20 @@ async function loginUserByUserName(userName, password) {
     }
 }
 
-module.exports = {registerUser, loginUserByEmail, loginUserByUserName }
+async function getProfileData(Uid) {
+    try {
+
+        const profileData = await userSchema.findOne(Uid);
+        if(!profileData){
+            return {status: "Not Found"};
+        }
+        return profileData;
+
+       
+    } catch (error) {
+        console.log("Error in user controller while getting user profile data",error);
+        
+    }
+}
+
+module.exports = {registerUser, loginUserByEmail, loginUserByUserName, getProfileData }
