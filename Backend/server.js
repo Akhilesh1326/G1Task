@@ -15,7 +15,7 @@ connectDB.connectToDB();
 const app = express();
 
 // All controller related imports are here.....
-const { registerUser, loginUserByEmail, loginUserByUserName, } = require("./controller/user");
+const { registerUser, loginUserByEmail, loginUserByUserName, getProfileData} = require("./controller/user");
 
 // Middlerware for urlenooded
 app.use(bodyParser.json());
@@ -31,10 +31,10 @@ app.use(cors({
 
 const accessCheck = (allowedRoles) => {
     return (req, res, next) => {
-        console.log("hello meddiler")
+        // console.log("hello meddiler")
 
         try {
-            console.log("cookeeiii = ",req.cookies)
+            // console.log("cookeeiii = ",req.cookies)
             const token = req.cookies.userCookie;
             if (!token) {
                 return res.json({ status: "Unauthorized Access, Token not Found" });
@@ -205,6 +205,33 @@ app.get("/api/user-page", accessCheck(["staff", "admin", "user"]), async (req, r
         res.json({ status: "good" });
     } catch (error) {
         console.log("Error in access check api call of user", error)
+    }
+})
+
+app.get("/api/profile-data", async(req,res)=>{
+    try {
+        const token = req.cookies.userCookie;
+        if(!token){
+            return res.json({status: "Unauthorized Access, Token not Found"})
+        }
+
+        const decode_token = jwt.verify(token, process.env.JWT_SECRET);
+        const Uid = decode_token.UId;
+        const result = await getProfileData(Uid);
+        console.log("result = ",result);
+
+        responseObj = {
+            fullName: result.fullName,
+            birthDate: result.birthDate,
+            userName: result.userName,
+            email: result.email,
+            role: result.role,
+        }
+
+        return res.json({data: responseObj});
+        
+    } catch (error) {
+        console.log("Error in getting log data", error)
     }
 })
 
