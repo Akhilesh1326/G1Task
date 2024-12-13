@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API from "../utility/api";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Register = () => {
         }
         setLoad(true);
         try {
-            const resp = await axios.post(
+            const resp = await API.post(
                 "/api/auth/register",
                 { fullName, birthDate, userName, email, password, role },
                 { withCredentials: true }
@@ -94,24 +95,24 @@ const Register = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <div className="flex flex-col">
-                                        <label    htmlFor="fullName"    className="text-sm font-medium mb-1">
+                                        <label    htmlFor="fullName" className="text-sm font-medium mb-1">
                                             Full Name
                                         </label>
-                                        <input    type="text"    id="fullName"    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Enter your full name"    value={fullName}    onChange={(e) => {        setFullName(e.target.value);    }}/>
+                                        <input type="text" id="fullName" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Enter your full name"    value={fullName}    onChange={(e) => {        setFullName(e.target.value);    }}/>
                                     </div>
 
                                     <div className="flex flex-col mt-5">
                                         <label    htmlFor="dob"    className="text-sm font-medium mb-1">
                                             Date of Birth
                                         </label>
-                                        <input    type="date"    id="dob"    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none   hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    value={birthDate}    onChange={(e) => {        setbirthDate(e.target.value);    }}/>
+                                        <input type="date" id="dob" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none   hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    value={birthDate}    onChange={(e) => {        setbirthDate(e.target.value);    }}/>
                                     </div>
 
                                     <div className="flex flex-col mt-5">
-                                        <label    htmlFor="username"    className="text-sm font-medium mb-1">
+                                        <label    htmlFor="username" className="text-sm font-medium mb-1">
                                             Username
                                         </label>
-                                        <input    type="text"    id="username"    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Choose a unique username"    value={userName}    onChange={(e) => {        setUserName(e.target.value);    }}/>
+                                        <input type="text" id="username" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Choose a unique username"    value={userName}    onChange={(e) => {        setUserName(e.target.value);    }}/>
                                     </div>
                                 </div>
                                 <div>

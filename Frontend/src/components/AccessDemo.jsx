@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import API from "../utility/api";
 
 const AccessDemo = () => {
 
   const [message, setMessage] = useState("");
   const sendAccessRequestForAdmin = async() =>{
     try {
-      const resp = await axios.get("/api/admin-page")
+      const resp = await API.get("/api/admin-page")
       console.log("request repsonse for admin = ",resp);
 
       if(resp.data.status == "good"){ 
@@ -22,7 +23,7 @@ const AccessDemo = () => {
   }
   const sendAccessRequestForUser = async() =>{
     try {
-      const resp = await axios.get("/api/user-page")
+      const resp = await API.get("/api/user-page")
       console.log("request repsonse for User = ",resp);
       if(resp.data.status == "good"){ 
         setMessage("Access Granted");
@@ -36,7 +37,7 @@ const AccessDemo = () => {
   }
   const sendAccessRequestForStaff = async() =>{
     try {
-      const resp = await axios.get("/api/staff-page")
+      const resp = await API.get("/api/staff-page")
       console.log("request repsonse for staff = ",resp);
       if(resp.data.status == "good"){ 
         setMessage("Access Granted");

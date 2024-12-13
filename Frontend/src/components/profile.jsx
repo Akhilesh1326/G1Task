@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from '../utility/api';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Profile = () => {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const resp = await axios.get("/api/profile-data");
+        const resp = await API.get("/api/profile-data");
         console.log("response for profile = ", resp.data.data);
         setData(resp.data.data);
       } catch (error) {

@@ -3,6 +3,8 @@ import axios from "axios";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../utility/api";
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -40,7 +42,7 @@ const Login = () => {
 
         console.log(userName, password)
         try {
-            const resp = await axios.post("/api/auth/loginby-username", {
+            const resp = await API.post("/api/auth/loginby-username", {
                 userName,
                 password
             })

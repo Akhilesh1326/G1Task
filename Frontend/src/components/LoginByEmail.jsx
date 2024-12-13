@@ -2,6 +2,8 @@ import { FaArrowAltCircleLeft } from "react-icons/fa";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../utility/api";
+
 
 const Login = () => {
     const navigate = useNavigate();
@@ -44,7 +46,7 @@ const Login = () => {
 
         console.log(email, password);
         try {
-            const resp = await axios.post("/api/auth/loginby-email", {
+            const resp = await API.post("/api/auth/loginby-email", {
                 email,
                 password,
             });
