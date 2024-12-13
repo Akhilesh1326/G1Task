@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 
 function connectToDB(){
-    mongoose.connect("mongodb://127.0.0.1:27017/GOneTask")
+    mongoose.connect("mongodb+srv://akhileshpimple3:HYkM1yuRxy3rf0YK@parikshamitra.cxbkb.mongodb.net/?retryWrites=true&w=majority&appName=ParikshaMitra")
     .then(()=>{
         console.log("Connected to DB");
     });
