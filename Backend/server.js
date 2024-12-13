@@ -34,14 +34,14 @@ const accessCheck = (allowedRoles) => {
         // console.log("hello meddiler")
 
         try {
-            // console.log("cookeeiii = ",req.cookies)
             const token = req.cookies.userCookie;
             if (!token) {
                 return res.json({ status: "Unauthorized Access, Token not Found" });
             }
-
+            
             const token_decode = jwt.verify(token, process.env.JWT_SECRET);
             req.user = token_decode;
+            console.log("cookie = ",req.cookies, "cookie roll - ",token_decode.roll);
             if (!allowedRoles.includes(token_decode.role)) {
                 return res.json({ status: `Access Denied, Your role as being a ${token_decode.role} don't have access`});
             }
