@@ -86,17 +86,17 @@ const Login = () => {
                             <label htmlFor="email" className="block text-sm sm:text-base font-medium mb-1">
                                 Email
                             </label>
-                            <input type="email" id="email" className="w-full px-3 sm:px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
+                            <input type="email" id="email" className="w-full px-3 sm:px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-200 hover:shadow-[0px_0px_7px_1px_#1983ed]   " placeholder="Enter your email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
                         </div>
 
                         <div>
                             <label htmlFor="password" className="block text-sm sm:text-base font-medium mb-1">
                                 Password
                             </label>
-                            <input type="password" id="password" className="w-full px-3 sm:px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
+                            <input type="password" id="password" className="w-full px-3 sm:px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-200 hover:shadow-[0px_0px_7px_1px_#1983ed] " placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
                         </div>
 
-                        <button onClick={submitLoginData} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50 $     load ? "cursor-wait" : "cursor-pointer }`} disabled={load}>
+                        <button onClick={submitLoginData} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition disabled:opacity-50  hover:scale-105 duration-200 hover:shadow-[0px_0px_7px_1px_#002b56] ${load ? "cursor-wait" : "cursor-pointer" }`} disabled={load}>
                             <div className={`${load ? "animate-spin" : "animate-none"}`}>
                                 {load ? "|" : "Log In"}
                             </div>
