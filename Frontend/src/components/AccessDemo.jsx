@@ -77,7 +77,7 @@ const AccessDemo = () => {
             Admin Access
           </button>
         </div>
-        <div className={`text-red-500 text-lg mt-10 ${message=="Access Granted" ? "text-green-500": ""}`}>{message}</div>
+        <div className={`text-red-500 text-lg mt-10 ${message=="Access Granted" ? "text-green-400": ""}`}>{message}</div>
       </div>
     </div>
   );
