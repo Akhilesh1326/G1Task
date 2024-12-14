@@ -81,7 +81,7 @@ const Login = () => {
             <div className="h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
                 <div className="absolute     text-xl text-red-500 top-28">{error}</div>
 
-                <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-[400px]">
+                <div className="bg-gray-800 p-8 rounded-lg shadow-lg lg:w-[400px] sm:w-[300px]">    
                     <h2 className="text-2xl font-bold text-center mb-6 text-blue-500">Sign Up</h2>
 
                     <div className="space-y-6">
@@ -106,6 +106,9 @@ const Login = () => {
                         </div>
                     </div>
                 </div>
+                <button onClick={() => { navigate("/register") }} className="mt-1 font-bold">
+                    New here, <span className="text-blue-500">Register</span> first
+                </button>
             </div>
         </div>
     );

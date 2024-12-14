@@ -78,7 +78,7 @@ const Register = () => {
     return (
         <div className="min-h-screen bg-gray-900 text-white">
             <div className="w-full flex justify-start px-6 py-4 bg-gray-900">
-                <FaArrowAltCircleLeft    size={40}    className="text-blue-500 cursor-pointer"    onClick={() => {        navigate("/");    }}/>
+                <FaArrowAltCircleLeft size={40} className="text-blue-500 cursor-pointer" onClick={() => { navigate("/"); }} />
             </div>
 
             <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -95,45 +95,45 @@ const Register = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <div className="flex flex-col">
-                                        <label    htmlFor="fullName" className="text-sm font-medium mb-1">
+                                        <label htmlFor="fullName" className="text-sm font-medium mb-1">
                                             Full Name
                                         </label>
-                                        <input type="text" id="fullName" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Enter your full name"    value={fullName}    onChange={(e) => {        setFullName(e.target.value);    }}/>
+                                        <input type="text" id="fullName" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" placeholder="Enter your full name" value={fullName} onChange={(e) => { setFullName(e.target.value); }} />
                                     </div>
 
                                     <div className="flex flex-col mt-5">
-                                        <label    htmlFor="dob"    className="text-sm font-medium mb-1">
+                                        <label htmlFor="dob" className="text-sm font-medium mb-1">
                                             Date of Birth
                                         </label>
-                                        <input type="date" id="dob" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none   hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    value={birthDate}    onChange={(e) => {        setbirthDate(e.target.value);    }}/>
+                                        <input type="date" id="dob" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none   hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" value={birthDate} onChange={(e) => { setbirthDate(e.target.value); }} />
                                     </div>
 
                                     <div className="flex flex-col mt-5">
-                                        <label    htmlFor="username" className="text-sm font-medium mb-1">
+                                        <label htmlFor="username" className="text-sm font-medium mb-1">
                                             Username
                                         </label>
-                                        <input type="text" id="username" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Choose a unique username"    value={userName}    onChange={(e) => {        setUserName(e.target.value);    }}/>
+                                        <input type="text" id="username" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" placeholder="Choose a unique username" value={userName} onChange={(e) => { setUserName(e.target.value); }} />
                                     </div>
                                 </div>
                                 <div>
                                     <div className="flex flex-col">
-                                        <label    htmlFor="email"    className="text-sm font-medium mb-1">
+                                        <label htmlFor="email" className="text-sm font-medium mb-1">
                                             Email
                                         </label>
-                                        <input    type="email"    id="email"    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Enter your email"    value={email}    onChange={(e) => {        setEmail(e.target.value);    }}/>
+                                        <input type="email" id="email" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" placeholder="Enter your email" value={email} onChange={(e) => { setEmail(e.target.value); }} />
                                     </div>
                                     <div className="flex flex-col mt-5">
-                                        <label    htmlFor="password"    className="text-sm font-medium mb-1">
+                                        <label htmlFor="password" className="text-sm font-medium mb-1">
                                             Password
                                         </label>
-                                        <input    type="password"    id="password"    className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]"    placeholder="Create a password"    value={password}    onChange={(e) => {        setPassword(e.target.value);    }}/>
+                                        <input type="password" id="password" className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" placeholder="Create a password" value={password} onChange={(e) => { setPassword(e.target.value); }} />
                                     </div>
 
                                     <div className="flex flex-col mt-5">
                                         <label htmlFor="role" className="text-sm font-medium mb-1">
                                             Role Type
                                         </label>
-                                        <select id="role" className="w-full h-[42px] px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" value={role} onChange={(e) => {     setRole(e.target.value); }}>
+                                        <select id="role" className="w-full h-[42px] px-4 py-2 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none  hover:scale-105 duration-300 hover:shadow-[0px_0px_7px_1px_#1983ed]" value={role} onChange={(e) => { setRole(e.target.value); }}>
                                             <option value="null">
                                                 Select Role Type
                                             </option>
@@ -149,8 +149,11 @@ const Register = () => {
                                 </div>
                             </div>
 
-                            <button onClick={() => {     submitRegisterForm(); }} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-75  hover:scale-105 hover:shadow-[0px_0px_7px_1px_#092139] ${load ? "cursor-wait" : "cursor-default" }`} disabled={load}>
+                            <button onClick={() => { submitRegisterForm(); }} className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-75  hover:scale-105 hover:shadow-[0px_0px_7px_1px_#092139] ${load ? "cursor-wait" : "cursor-default"}`} disabled={load}>
                                 {load ? "Loading..." : "Sign Up"}
+                            </button>
+                            <button onClick={() => { navigate("/login-username") }} className="w-full mt-1 font-bold">
+                                Already have an account, <span className="text-blue-500">Login</span> here
                             </button>
                         </div>
                     </div>

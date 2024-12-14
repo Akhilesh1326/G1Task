@@ -116,6 +116,9 @@ const Login = () => {
                         </div>
                     </div>
                 </div>
+                <button onClick={()=>{navigate("/register")}} className="mt-1 font-bold">
+                    New here, <span className="text-blue-500">Register</span> first 
+                    </button>
             </div>
         </div>
     );
